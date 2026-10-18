@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonBudget.Views.SplashPage">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="28,40,28,32">
+        <Border Style="{StaticResource Puce}" BackgroundColor="White" HorizontalOptions="Center">
+            <Label Text="●  Finances personnelles simplifiées" FontSize="13" FontAttributes="Bold"
+                   TextColor="{StaticResource Gris}" />
+        </Border>
+
+        <VerticalStackLayout Grid.Row="1" VerticalOptions="Center" Spacing="16" HorizontalOptions="Center">
+            <Image Source="logo.png" HeightRequest="170" HorizontalOptions="Center" />
+            <Label Text="MonBudget" Style="{StaticResource Titre}" FontSize="36" HorizontalOptions="Center" />
+            <Label Text="Maîtrisez vos dépenses au quotidien avec sérénité."
+                   FontSize="18" TextColor="{StaticResource Gris}"
+                   HorizontalTextAlignment="Center" Margin="10,0" />
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,20,0,0">
+                <Border Style="{StaticResource Carte}" Padding="12">
+                    <VerticalStackLayout Spacing="4">
+                        <Image Source="ic_bell_indigo" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" />
+                        <Label Text="Alertes 80%" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+                <Border Grid.Column="1" Style="{StaticResource Carte}" Padding="12">
+                    <VerticalStackLayout Spacing="4">
+                        <Image Source="ic_shield_indigo" WidthRequest="28" HeightRequest="28" HorizontalOptions="Center" />
+                        <Label Text="100% Sécurisé" FontAttributes="Bold" FontSize="14" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="14">
+            <Button Text="Commencer  →" Style="{StaticResource BoutonPrincipal}" Clicked="OnCommencerClicked" />
+            <HorizontalStackLayout HorizontalOptions="Center" Spacing="6">
+                <Image Source="ic_shield_vert" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" />
+                <Label Text="Gestion financière privée &amp; locale" Style="{StaticResource Legende}" FontSize="14" VerticalOptions="Center" />
+            </HorizontalStackLayout>
+            <Label Text="VERSION 1.0" Style="{StaticResource Legende}" HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

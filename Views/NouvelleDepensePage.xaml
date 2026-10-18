@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonBudget.Views.NouvelleDepensePage">
+    <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*,Auto" Padding="20,14" ColumnSpacing="16">
+            <Button Text="←" FontSize="24" BackgroundColor="Transparent" TextColor="{StaticResource Marine}"
+                    Padding="0" WidthRequest="40" Clicked="OnRetourClicked" />
+            <Label Grid.Column="1" Text="Nouvelle Dépense" Style="{StaticResource SousTitre}" FontSize="22"
+                   VerticalOptions="Center" />
+            <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource Marine}"
+                    StrokeShape="RoundRectangle 22" Stroke="Transparent">
+                <Image Source="ic_user_blanc" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+            </Border>
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
+
+                <Border Style="{StaticResource Carte}" BackgroundColor="{StaticResource FondDoux}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ic_wallet_indigo" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Budget mensuel restant" Style="{StaticResource Legende}" />
+                            <Label x:Name="LabelBudgetRestant" Text="65 000 FCFA" Style="{StaticResource SousTitre}" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="2" BackgroundColor="#DDF0DE" Stroke="Transparent"
+                                StrokeShape="RoundRectangle 14" Padding="10,4" VerticalOptions="Center">
+                            <Label Text="En équilibre" TextColor="{StaticResource Succes}" FontSize="12" FontAttributes="Bold" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Montant -->
+                <VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Montant dépensé *" Style="{StaticResource LabelChamp}" />
+                        <Label Grid.Column="1" Text="Saisie rapide" TextColor="{StaticResource Indigo}" FontSize="13" />
+                    </Grid>
+                    <Border Style="{StaticResource Carte}" Padding="18,8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Entry x:Name="EntryMontant" Text="5000" Keyboard="Numeric" FontSize="34" FontAttributes="Bold" TextChanged="OnMontantChanged" />
+                            <Border Grid.Column="1" Style="{StaticResource Puce}" BackgroundColor="#E6E6E6" VerticalOptions="Center">
+                                <Label Text="FCFA ⌄" FontAttributes="Bold" TextColor="{StaticResource Marine}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                    <FlexLayout Wrap="Wrap" Margin="0,10,0,0" JustifyContent="Start">
+                        <Border Style="{StaticResource Puce}" Margin="0,0,8,8"><Label Text="+1 000" />
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnMontantRapideTapped" CommandParameter="1000" /></Border.GestureRecognizers></Border>
+                        <Border Style="{StaticResource Puce}" Margin="0,0,8,8"><Label Text="+2 500" />
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnMontantRapideTapped" CommandParameter="2500" /></Border.GestureRecognizers></Border>
+                        <Border Style="{StaticResource Puce}" Margin="0,0,8,8" BackgroundColor="#DDE0FF"><Label Text="+5 000" />
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnMontantRapideTapped" CommandParameter="5000" /></Border.GestureRecognizers></Border>
+                        <Border Style="{StaticResource Puce}" Margin="0,0,8,8"><Label Text="+10 000" />
+                            <Border.GestureRecognizers><TapGestureRecognizer Tapped="OnMontantRapideTapped" CommandParameter="10000" /></Border.GestureRecognizers></Border>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Catégories -->
+                <VerticalStackLayout>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Catégorie *" Style="{StaticResource LabelChamp}" />
+                        <Label x:Name="LabelCategorieChoisie" Grid.Column="1" Text="Alimentation sélectionnée"
+                               TextColor="{StaticResource Marine}" FontAttributes="Bold" FontSize="13" />
+                    </Grid>
+                    <FlexLayout x:Name="GrilleCategories" Wrap="Wrap" JustifyContent="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border BackgroundColor="White" Stroke="Transparent" StrokeShape="RoundRectangle 16"
+                                        WidthRequest="78" Padding="6,10" Margin="0,0,8,8">
+                                    <VerticalStackLayout Spacing="4">
+                                        <Border WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource FondDoux}" Stroke="Transparent" StrokeShape="RoundRectangle 22" HorizontalOptions="Center">
+                                            <Image Source="{Binding Icone}" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <Label Text="{Binding Nom}" FontSize="11" FontAttributes="Bold"
+                                               HorizontalOptions="Center" LineBreakMode="TailTruncation" />
+                                    </VerticalStackLayout>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnCategorieTapped" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <!-- Date -->
+                <VerticalStackLayout>
+                    <Label Text="Date de la transaction" Style="{StaticResource LabelChamp}" />
+                    <Border Style="{StaticResource Carte}" Padding="18,4">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Image Source="ic_calendar_indigo" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            <DatePicker x:Name="DateDepense" Grid.Column="1" Format="dd/MM/yyyy"
+                                        TextColor="{StaticResource Marine}" FontAttributes="Bold" />
+                            <Border Grid.Column="2" Style="{StaticResource Puce}" Padding="10,4" VerticalOptions="Center">
+                                <Label Text="Aujourd'hui" FontSize="12" TextColor="{StaticResource Indigo}" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </VerticalStackLayout>
+
+                <!-- Note -->
+                <VerticalStackLayout>
+                    <Label Text="Note (optionnel)" Style="{StaticResource LabelChamp}" />
+                    <Border Style="{StaticResource Carte}" Padding="14,6">
+                        <Editor x:Name="EditorNote" Placeholder="Ex : Déjeuner au campus" HeightRequest="80" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <Border Style="{StaticResource Carte}" BackgroundColor="{StaticResource FondDoux}">
+                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                        <Image Source="ic_trend_up_indigo" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Nouveau solde estimé" Style="{StaticResource SousTitre}" />
+                            <Label Text="Post-enregistrement" Style="{StaticResource Legende}" />
+                        </VerticalStackLayout>
+                        <Label x:Name="LabelSoldeEstime" Grid.Column="2" Text="60 000 FCFA" TextColor="{StaticResource Indigo}"
+                               FontAttributes="Bold" FontSize="18" VerticalOptions="Center" />
+                    </Grid>
+                </Border>
+
+                <Button Text="✓  Enregistrer" Style="{StaticResource BoutonPrincipal}"
+                        BackgroundColor="{StaticResource Marine}" Clicked="OnEnregistrerClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:views="clr-namespace:MonBudget.Views"
+       x:Class="MonBudget.AppShell"
+       Shell.FlyoutBehavior="Disabled"
+       Shell.TabBarBackgroundColor="White"
+       Shell.TabBarTitleColor="{StaticResource Marine}"
+       Shell.TabBarUnselectedColor="{StaticResource Gris}">
+
+    <!-- Parcours d'entrée -->
+    <ShellContent Route="Splash" ContentTemplate="{DataTemplate views:SplashPage}" />
+    <ShellContent Route="Connexion" ContentTemplate="{DataTemplate views:ConnexionPage}" />
+    <ShellContent Route="Inscription" ContentTemplate="{DataTemplate views:InscriptionPage}" />
+
+    <!-- Application principale : barre d'onglets -->
+    <TabBar Route="Main">
+        <ShellContent Title="Accueil" Route="Accueil" ContentTemplate="{DataTemplate views:AccueilPage}">
+            <ShellContent.Icon><FileImageSource File="tab_home" /></ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Dépenses" Route="Depenses" ContentTemplate="{DataTemplate views:CategoriesPage}">
+            <ShellContent.Icon><FileImageSource File="tab_receipt" /></ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Statistiques" Route="Statistiques" ContentTemplate="{DataTemplate views:StatistiquesPage}">
+            <ShellContent.Icon><FileImageSource File="tab_chart" /></ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Budget" Route="Budget" ContentTemplate="{DataTemplate views:BudgetPage}">
+            <ShellContent.Icon><FileImageSource File="tab_wallet" /></ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
+</Shell>

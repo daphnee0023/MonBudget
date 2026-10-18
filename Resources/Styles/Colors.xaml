@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    <Color x:Key="Marine">#000066</Color>
+    <Color x:Key="Primary">#1A237E</Color>
+    <Color x:Key="Indigo">#4350B5</Color>
+    <Color x:Key="Cyan">#1AA0D8</Color>
+    <Color x:Key="CyanClair">#7FD4FF</Color>
+    <Color x:Key="Succes">#43A047</Color>
+    <Color x:Key="Fond">#FAF8FA</Color>
+    <Color x:Key="Carte">#FFFFFF</Color>
+    <Color x:Key="FondDoux">#F4F5FB</Color>
+    <Color x:Key="Champ">#F3F2F3</Color>
+    <Color x:Key="Gris">#5F6368</Color>
+    <Color x:Key="GrisClair">#9AA0A6</Color>
+
+    <LinearGradientBrush x:Key="DegradeBleu" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#1A237E" Offset="0.0" />
+        <GradientStop Color="#3949AB" Offset="1.0" />
+    </LinearGradientBrush>
+</ResourceDictionary>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:comp="clr-namespace:MonBudget.Views.Components"
+             x:Class="MonBudget.Views.StatistiquesPage">
+    <Grid RowDefinitions="Auto,*">
+        <comp:EnteteApp Titre="Statistiques" />
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
+
+                <Grid ColumnDefinitions="*,Auto">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center"><Image Source="ic_trend_up_indigo" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" /><Label Text="Analyse financière" TextColor="{StaticResource Gris}" FontSize="16" VerticalOptions="Center" /></HorizontalStackLayout>
+                    <Border Grid.Column="1" Style="{StaticResource Puce}" BackgroundColor="White" Padding="16,10">
+                        <HorizontalStackLayout Spacing="8"><Image Source="ic_calendar_marine" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /><Label Text="Octobre 2026" FontAttributes="Bold" TextColor="{StaticResource Marine}" VerticalOptions="Center" /><Image Source="ic_chevron_down_marine" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" /></HorizontalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Répartition" Style="{StaticResource Titre}" FontSize="24" />
+                            <Border Grid.Column="1" Style="{StaticResource Puce}" Padding="10,4" VerticalOptions="Center">
+                                <Label Text="Dépenses globales" FontSize="12" FontAttributes="Bold" />
+                            </Border>
+                        </Grid>
+
+                        
+                        <Grid WidthRequest="230" HeightRequest="230" HorizontalOptions="Center">
+                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#000066" StrokeThickness="36"
+                                     StrokeDashArray="5.72,8.59" StrokeDashOffset="0" Rotation="-90" />
+                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#4350B5" StrokeThickness="36"
+                                     StrokeDashArray="3.58,10.73" StrokeDashOffset="-5.72" Rotation="-90" />
+                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#1AA0D8" StrokeThickness="36"
+                                     StrokeDashArray="2.86,11.45" StrokeDashOffset="-9.30" Rotation="-90" />
+                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#43A047" StrokeThickness="36"
+                                     StrokeDashArray="2.15,12.16" StrokeDashOffset="-12.16" Rotation="-90" />
+                            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                <Image Source="ic_chart_indigo" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" />
+                                <Label Text="85 000" Style="{StaticResource Titre}" FontSize="32" HorizontalOptions="Center" />
+                                <Label Text="FCFA TOTAL" Style="{StaticResource Legende}" HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Grid>
+
+                        <Label Text="Touchez un segment pour inspecter les détails" Style="{StaticResource Legende}"
+                               HorizontalOptions="Center" />
+
+                        <VerticalStackLayout x:Name="LegendeCategories" Spacing="10">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="{StaticResource FondDoux}" Stroke="Transparent"
+                                            StrokeShape="RoundRectangle 18" Padding="14,12">
+                                        <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="12">
+                                            <BoxView WidthRequest="14" HeightRequest="14" CornerRadius="7"
+                                                     Color="{Binding Couleur}" VerticalOptions="Center" />
+                                            <Image Source="{Binding Icone}" WidthRequest="26" HeightRequest="26" Grid.Column="1" VerticalOptions="Center" />
+                                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                                <Label Text="{Binding Nom}" Style="{StaticResource SousTitre}" TextColor="Black" />
+                                                <Label Text="{Binding MontantTexte}" Style="{StaticResource Legende}" />
+                                            </VerticalStackLayout>
+                                            <Label Grid.Column="3" Text="{Binding PourcentageTexte}" FontSize="22"
+                                                   FontAttributes="Bold" TextColor="{Binding Couleur}" VerticalOptions="Center" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border Style="{StaticResource Carte}" Padding="16">
+                        <VerticalStackLayout Spacing="4">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Poste majeur" Style="{StaticResource Legende}" FontSize="13" />
+                                <Label Grid.Column="1" Text="↑" TextColor="{StaticResource Marine}" FontAttributes="Bold" />
+                            </Grid>
+                            <Label Text="Alimentation" Style="{StaticResource SousTitre}" FontSize="19" />
+                            <Label Text="40% du budget" Style="{StaticResource Legende}" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Column="1" Style="{StaticResource Carte}" Padding="16">
+                        <VerticalStackLayout Spacing="4">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Rythme mensuel" Style="{StaticResource Legende}" FontSize="13" />
+                                <Image Source="ic_check_circle_vert" WidthRequest="20" HeightRequest="20" Grid.Column="1" />
+                            </Grid>
+                            <Label Text="Bien maîtrisé" TextColor="{StaticResource Succes}" FontAttributes="Bold" FontSize="19" />
+                            <Label Text="Conforme aux prévisions" Style="{StaticResource Legende}" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Button Text="Exporter les données" ImageSource="ic_upload_blanc" ContentLayout="Left,10" Style="{StaticResource BoutonPrincipal}"
+                        BackgroundColor="{StaticResource Indigo}" Clicked="OnExporterClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
