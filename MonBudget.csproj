@@ -47,6 +47,12 @@
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
 		
+		<MauiImage Update="Resources\Images\ic_*.png" Resize="True" BaseSize="48,48" />
+<MauiImage Update="Resources\Images\tab_*.png" Resize="True" BaseSize="24,24" />
+<MauiImage Update="Resources\Images\ic_apple.png" Resize="True" BaseSize="24,24" />
+<MauiImage Update="Resources\Images\ic_google.png" Resize="True" BaseSize="24,24" />
+<MauiImage Update="Resources\Images\ic_upload_blanc.png" Resize="True" BaseSize="24,24" />
+<MauiImage Update="Resources\Images\ic_logout_rouge.png" Resize="True" BaseSize="24,24" />
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
 
@@ -57,6 +63,8 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.11.285" />
+		<PackageReference Include="SQLitePCLRaw.config.e_sqlite3" Version="3.0.5" />
 	</ItemGroup>
 
 </Project>

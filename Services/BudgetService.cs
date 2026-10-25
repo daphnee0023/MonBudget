@@ -1,60 +1,88 @@
-using System.Globalization;
 using MonBudget.Data;
 using MonBudget.Models;
 
 namespace MonBudget.Services;
 
-/// <summary>
-/// Service en mémoire (temporaire). Sera remplacé par une couche SQLite
-/// en gardant les mêmes méthodes publiques.
-/// </summary>
-public class BudgetService
+public class BudgetService : IBudgetService
 {
-    public static BudgetService Instance { get; } = new();
+    private const decimal BudgetParDefaut = 150000m;
 
-    private static readonly CultureInfo Fr = new("fr-FR");
-    private const decimal DepensesAnterieures = 48000m; // dépenses déjà faites avant celles de la liste
-    private readonly Dictionary<string, (string Nom, string Mot)> _comptes = new();
+    private readonly BudgetDatabase _base;
+    private readonly IAuthService _auth;
+    private readonly IDepenseService _depenses;
 
-    // ---------- Comptes ----------
-    public string? NomUtilisateur { get; private set; }
-
-    public bool Inscrire(string nom, string contact, string motDePasse)
+    public BudgetService(BudgetDatabase baseDeDonnees, IAuthService auth, IDepenseService depenses)
     {
-        var cle = contact.Trim().ToLowerInvariant();
-        if (_comptes.ContainsKey(cle)) return false;
-        _comptes[cle] = (nom.Trim(), motDePasse);
-        NomUtilisateur = nom.Trim();
-        return true;
+        _base = baseDeDonnees;
+        _auth = auth;
+        _depenses = depenses;
     }
 
-    public bool Connecter(string contact, string motDePasse)
+    private async Task<BudgetMensuel?> BudgetExactAsync(int utilisateurId, int annee, int mois)
     {
-        var cle = contact.Trim().ToLowerInvariant();
-        if (!_comptes.TryGetValue(cle, out var compte) || compte.Mot != motDePasse) return false;
-        NomUtilisateur = compte.Nom;
-        return true;
+        var bd = await _base.ConnexionAsync();
+        return await bd.Table<BudgetMensuel>()
+            .Where(b => b.UtilisateurId == utilisateurId && b.Annee == annee && b.Mois == mois)
+            .FirstOrDefaultAsync();
     }
 
-    public bool AucunCompte => _comptes.Count == 0;
+    // Budget du mois, ou à défaut le dernier budget défini avant ce mois
+    private async Task<BudgetMensuel?> BudgetPourAsync(int utilisateurId, int annee, int mois)
+    {
+        var exact = await BudgetExactAsync(utilisateurId, annee, mois);
+        if (exact is not null) return exact;
 
-    // ---------- Budget ----------
-    public decimal Budget { get; set; } = 150000m;
-    public bool AlerteActive { get; set; } = true;
-    public decimal Seuil => Budget * 0.8m;
+        var bd = await _base.ConnexionAsync();
+        var cle = annee * 100 + mois;
+        var tous = await bd.Table<BudgetMensuel>().Where(b => b.UtilisateurId == utilisateurId).ToListAsync();
 
-    public List<Depense> Depenses { get; } = DonneesExemple.DernieresDepenses;
+        return tous
+            .Where(b => b.Annee * 100 + b.Mois < cle)
+            .OrderByDescending(b => b.Annee * 100 + b.Mois)
+            .FirstOrDefault();
+    }
 
-    public decimal TotalDepense => DepensesAnterieures + Depenses.Sum(d => d.Montant);
-    public decimal Restant => Budget - TotalDepense;
-    public bool SeuilAtteint => AlerteActive && TotalDepense >= Seuil;
+    public Task<ResumeBudget> ResumeAsync() => ResumeAsync(DateTime.Today.Year, DateTime.Today.Month);
 
-    public double PartDepensee =>
-        Budget <= 0 ? 0 : Math.Clamp((double)(TotalDepense / Budget), 0, 1);
+    public async Task<ResumeBudget> ResumeAsync(int annee, int mois)
+    {
+        var utilisateur = _auth.Courant;
+        if (utilisateur is null) return new ResumeBudget { Budget = BudgetParDefaut };
 
-    public void AjouterDepense(Depense depense) => Depenses.Insert(0, depense);
+        var budget = await BudgetPourAsync(utilisateur.Id, annee, mois);
+        var total = await _depenses.TotalDuMoisAsync(annee, mois);
 
-    // ---------- Format ----------
-    public static string Fcfa(decimal valeur) => valeur.ToString("N0", Fr) + " FCFA";
-    public static string Nombre(decimal valeur) => valeur.ToString("N0", Fr);
+        return new ResumeBudget
+        {
+            Budget = budget?.Montant ?? BudgetParDefaut,
+            AlerteActive = budget?.AlerteActive ?? true,
+            TotalDepense = total
+        };
+    }
+
+    public async Task EnregistrerAsync(decimal montant, bool alerteActive)
+    {
+        var utilisateur = _auth.Courant ?? throw new InvalidOperationException("Aucun utilisateur connecté.");
+        var maintenant = DateTime.Today;
+        var bd = await _base.ConnexionAsync();
+
+        var existant = await BudgetExactAsync(utilisateur.Id, maintenant.Year, maintenant.Month);
+        if (existant is null)
+        {
+            await bd.InsertAsync(new BudgetMensuel
+            {
+                UtilisateurId = utilisateur.Id,
+                Annee = maintenant.Year,
+                Mois = maintenant.Month,
+                Montant = montant,
+                AlerteActive = alerteActive
+            });
+        }
+        else
+        {
+            existant.Montant = montant;
+            existant.AlerteActive = alerteActive;
+            await bd.UpdateAsync(existant);
+        }
+    }
 }
