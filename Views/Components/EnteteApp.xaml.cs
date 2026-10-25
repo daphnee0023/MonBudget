@@ -12,4 +12,8 @@ public partial class EnteteApp : ContentView
     }
 
     public EnteteApp() => InitializeComponent();
+
+    // Un appui sur le rond de profil ouvre l'écran Profil
+    private async void OnProfilTapped(object? sender, TappedEventArgs e)
+        => await Shell.Current.GoToAsync("Profil");
 }

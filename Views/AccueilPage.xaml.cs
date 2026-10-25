@@ -4,29 +4,37 @@ namespace MonBudget.Views;
 
 public partial class AccueilPage : ContentPage
 {
-    private readonly BudgetService _service = BudgetService.Instance;
+    private readonly IAuthService _auth;
+    private readonly IBudgetService _budget;
+    private readonly IDepenseService _depenses;
 
-    public AccueilPage() => InitializeComponent();
+    public AccueilPage(IAuthService auth, IBudgetService budget, IDepenseService depenses)
+    {
+        InitializeComponent();
+        _auth = auth;
+        _budget = budget;
+        _depenses = depenses;
+    }
 
-    // Rafraîchit les chiffres à chaque retour sur l'écran (après une nouvelle dépense, un nouveau budget…)
-    protected override void OnAppearing()
+    // Rafraîchit les chiffres à chaque retour sur l'écran (nouvelle dépense, nouveau budget…)
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
-        var prenom = _service.NomUtilisateur?.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
+        var prenom = _auth.Courant?.Nom.Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault();
         LabelBonjour.Text = prenom is null ? "Bonjour" : $"Bonjour {prenom}";
 
-        LabelBudget.Text = BudgetService.Nombre(_service.Budget);
-        LabelDepense.Text = BudgetService.Fcfa(_service.TotalDepense);
-        LabelRestant.Text = BudgetService.Fcfa(_service.Restant);
+        var resume = await _budget.ResumeAsync();
+        LabelBudget.Text = Format.Nombre(resume.Budget);
+        LabelDepense.Text = Format.Fcfa(resume.TotalDepense);
+        LabelRestant.Text = Format.Fcfa(resume.Restant);
+        BarreBudget.Progress = resume.PartDepensee;
+        LabelAlloue.Text = $"{Math.Round(resume.PartDepensee * 100)}% alloué";
+        LabelMarge.Text = $"{Math.Round((1 - resume.PartDepensee) * 100)}% marge";
 
-        var part = _service.PartDepensee;
-        BarreBudget.Progress = part;
-        LabelAlloue.Text = $"{Math.Round(part * 100)}% alloué";
-        LabelMarge.Text = $"{Math.Round((1 - part) * 100)}% marge";
-
-        BindableLayout.SetItemsSource(ListeDepenses, null);
-        BindableLayout.SetItemsSource(ListeDepenses, _service.Depenses.Take(3).ToList());
+        var recentes = await _depenses.RecentesAsync(3);
+        BindableLayout.SetItemsSource(ListeDepenses, recentes);
+        LabelVide.IsVisible = recentes.Count == 0;
     }
 
     private async void OnAjouterClicked(object? sender, EventArgs e)

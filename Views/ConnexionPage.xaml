@@ -26,7 +26,7 @@
                                TextColor="#CCD6FF" FontSize="15" />
                         <Border BackgroundColor="#22FFFFFF" Stroke="Transparent" StrokeShape="RoundRectangle 12"
                                 Padding="10,6" HorizontalOptions="Start">
-                            <HorizontalStackLayout Spacing="6"><Image Source="ic_shield_blanc" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" /><Label Text="Session sécurisée par chiffrement bancaire" TextColor="White" FontSize="12" VerticalOptions="Center" /></HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="6"><Image Source="ic_shield_blanc.png" WidthRequest="14" HeightRequest="14" VerticalOptions="Center" /><Label Text="Session sécurisée par chiffrement bancaire" TextColor="White" FontSize="12" VerticalOptions="Center" /></HorizontalStackLayout>
                         </Border>
                     </VerticalStackLayout>
                 </Border>
@@ -37,7 +37,7 @@
                             <Label Text="Téléphone ou E-mail" Style="{StaticResource LabelChamp}" />
                             <Border Style="{StaticResource ChampBorder}">
                                 <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
-                                    <Image Source="ic_at_gris" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                                    <Image Source="ic_at_gris.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
                                     <Entry x:Name="EntryIdentifiant" Grid.Column="1" Placeholder="ex : 6XXXXXXXX ou nom@mail.com" />
                                 </Grid>
                             </Border>
@@ -47,9 +47,9 @@
                             <Label Text="Mot de passe" Style="{StaticResource LabelChamp}" />
                             <Border Style="{StaticResource ChampBorder}">
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
-                                    <Image Source="ic_lock_gris" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                                    <Image Source="ic_lock_gris.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
                                     <Entry x:Name="EntryMotDePasse" Grid.Column="1" IsPassword="True" Placeholder="••••••••" />
-                                    <Image x:Name="IconeOeil" Grid.Column="2" Source="ic_eye_gris" WidthRequest="22" HeightRequest="22" VerticalOptions="Center">
+                                    <Image x:Name="IconeOeil" Grid.Column="2" Source="ic_eye_gris.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center">
                                         <Image.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnAfficherMotDePasseTapped" />
                                         </Image.GestureRecognizers>
@@ -60,7 +60,7 @@
 
                         <Grid ColumnDefinitions="*,Auto">
                             <HorizontalStackLayout Spacing="6">
-                                <CheckBox Color="{StaticResource Primary}" />
+                                <CheckBox x:Name="CheckSouvenir" Color="{StaticResource Primary}" />
                                 <Label Text="Se souvenir de moi" VerticalOptions="Center" FontSize="14" />
                             </HorizontalStackLayout>
                             <Label Grid.Column="1" Text="Mot de passe oublié ?" FontAttributes="Bold"
@@ -72,8 +72,8 @@
                         <Label Text="OU CONTINUER AVEC" Style="{StaticResource Legende}"
                                HorizontalOptions="Center" CharacterSpacing="1" />
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
-                            <Button Text="Apple" ImageSource="ic_apple" ContentLayout="Left,10" BackgroundColor="{StaticResource Champ}" TextColor="Black" CornerRadius="14" HeightRequest="52" />
-                            <Button Grid.Column="1" Text="Google" ImageSource="ic_google" ContentLayout="Left,10" BackgroundColor="{StaticResource Champ}" TextColor="Black" CornerRadius="14" HeightRequest="52" />
+                            <Button Text="Apple" ImageSource="ic_apple.png" ContentLayout="Left,10" BackgroundColor="{StaticResource Champ}" TextColor="Black" CornerRadius="14" HeightRequest="52" />
+                            <Button Grid.Column="1" Text="Google" ImageSource="ic_google.png" ContentLayout="Left,10" BackgroundColor="{StaticResource Champ}" TextColor="Black" CornerRadius="14" HeightRequest="52" />
                         </Grid>
                     </VerticalStackLayout>
                 </Border>

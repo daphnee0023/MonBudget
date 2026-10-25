@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonBudget.Views.CategorieDetailPage">
+    <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*" Padding="20,14" ColumnSpacing="16">
+            <Button Text="←" FontSize="24" BackgroundColor="Transparent" TextColor="{StaticResource Marine}"
+                    Padding="0" WidthRequest="40" Clicked="OnRetourClicked" />
+            <Label x:Name="LabelTitre" Grid.Column="1" Text="Dépenses" Style="{StaticResource SousTitre}" FontSize="22"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
+
+                <Border Background="{StaticResource DegradeBleu}" Stroke="Transparent"
+                        StrokeShape="RoundRectangle 18" Padding="20">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="TOTAL" TextColor="#AEB8F5" FontSize="12" CharacterSpacing="1" />
+                            <Label x:Name="LabelTotal" Text="0 FCFA" TextColor="White" FontSize="26" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <Label x:Name="LabelNb" Grid.Column="1" Text="0 dépense" TextColor="{StaticResource CyanClair}"
+                               FontSize="14" VerticalOptions="End" />
+                    </Grid>
+                </Border>
+
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout x:Name="ListeDepenses" Spacing="18">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12">
+                                    <Border WidthRequest="46" HeightRequest="46" BackgroundColor="{StaticResource FondDoux}"
+                                            Stroke="Transparent" StrokeShape="RoundRectangle 23">
+                                        <Image Source="{Binding IconeImage}" WidthRequest="24" HeightRequest="24"
+                                               HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                        <Label Text="{Binding Categorie}" Style="{StaticResource SousTitre}" FontSize="15" />
+                                        <Label Text="{Binding DateTexte}" Style="{StaticResource Legende}" FontSize="12" />
+                                        <Label Text="{Binding Note}" Style="{StaticResource Legende}" FontSize="12" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding MontantTexte}" Style="{StaticResource SousTitre}"
+                                           FontSize="14" VerticalOptions="Center" />
+                                    <Image Grid.Column="3" Source="ic_trash_rouge.png" WidthRequest="20" HeightRequest="20"
+                                           VerticalOptions="Center">
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnSupprimerDepenseTapped" />
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Grid>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Label x:Name="LabelVide" Text="Aucune dépense pour le moment." Style="{StaticResource Legende}"
+                       FontSize="14" HorizontalOptions="Center" IsVisible="False" />
+
+                <Button x:Name="BoutonSupprimerCategorie" Text="Supprimer cette catégorie"
+                        Style="{StaticResource BoutonSecondaire}" TextColor="#D32F2F" IsVisible="False"
+                        Clicked="OnSupprimerCategorieClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

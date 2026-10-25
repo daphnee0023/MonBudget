@@ -10,7 +10,7 @@
             <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
 
                 <Border Style="{StaticResource Puce}" BackgroundColor="White" HorizontalOptions="Start">
-                    <HorizontalStackLayout Spacing="8"><Image Source="ic_calendar_indigo" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /><Label TextColor="{StaticResource Gris}" VerticalOptions="Center">
+                    <HorizontalStackLayout Spacing="8"><Image Source="ic_calendar_indigo.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /><Label TextColor="{StaticResource Gris}" VerticalOptions="Center">
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="Mois en cours : " />
@@ -24,7 +24,7 @@
                         StrokeShape="RoundRectangle 22" Padding="22">
                     <VerticalStackLayout Spacing="14">
                         <Grid ColumnDefinitions="*,Auto">
-                            <HorizontalStackLayout Spacing="8"><Image Source="ic_target_blanc" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" /><Label Text="OBJECTIF DE DÉPENSE" TextColor="#CCD6FF" FontSize="13" CharacterSpacing="1" VerticalOptions="Center" /></HorizontalStackLayout>
+                            <HorizontalStackLayout Spacing="8"><Image Source="ic_target_blanc.png" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" /><Label Text="OBJECTIF DE DÉPENSE" TextColor="#CCD6FF" FontSize="13" CharacterSpacing="1" VerticalOptions="Center" /></HorizontalStackLayout>
                             <Border Grid.Column="1" BackgroundColor="#33FFFFFF" Stroke="Transparent"
                                     StrokeShape="RoundRectangle 12" Padding="10,3">
                                 <Label Text="Actif" TextColor="White" FontSize="12" />
@@ -51,10 +51,10 @@
                     </Grid>
                     <Border Style="{StaticResource Carte}" Padding="18,6">
                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                            <Image Source="ic_wallet_indigo" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
+                            <Image Source="ic_wallet_indigo.png" WidthRequest="28" HeightRequest="28" VerticalOptions="Center" />
                             <Entry x:Name="EntryBudget" Grid.Column="1" Text="150000" Keyboard="Numeric"
                                    FontSize="30" FontAttributes="Bold" TextChanged="OnBudgetChanged" />
-                            <HorizontalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center"><Label Text="FCFA" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Gris}" VerticalOptions="Center" /><Image Source="ic_edit_gris" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /></HorizontalStackLayout>
+                            <HorizontalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center"><Label Text="FCFA" FontAttributes="Bold" FontSize="16" TextColor="{StaticResource Gris}" VerticalOptions="Center" /><Image Source="ic_edit_gris.png" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /></HorizontalStackLayout>
                         </Grid>
                     </Border>
                     <Label Text="Dépense maximale autorisée pour les 31 jours d'octobre."
@@ -64,7 +64,7 @@
                 <Border Style="{StaticResource Carte}">
                     <VerticalStackLayout Spacing="14">
                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                            <Image Source="ic_bell_indigo" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                            <Image Source="ic_bell_indigo.png" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1">
                                 <Label Text="M'alerter à 80% du budget ?" Style="{StaticResource SousTitre}" TextColor="Black" />
                                 <Label Text="Recommandé pour prévenir les dépassements" Style="{StaticResource Legende}" />
@@ -78,7 +78,7 @@
                             </Border>
                             <Border Grid.Column="1" BackgroundColor="{StaticResource FondDoux}" Stroke="Transparent"
                                     StrokeShape="RoundRectangle 14" Padding="10,8">
-                                <RadioButton GroupName="Alerte" Content="Non · désactivé" FontSize="13" />
+                                <RadioButton x:Name="RadioNon" GroupName="Alerte" Content="Non · désactivé" FontSize="13" />
                             </Border>
                         </Grid>
                     </VerticalStackLayout>
@@ -88,7 +88,7 @@
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                         <Border WidthRequest="48" HeightRequest="48" BackgroundColor="#E3F4FC" Stroke="Transparent"
                                 StrokeShape="RoundRectangle 24">
-                            <Image Source="ic_bulb_cyan" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                            <Image Source="ic_bulb_cyan.png" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                         <VerticalStackLayout Grid.Column="1">
                             <Label Text="Conseil MonBudget" Style="{StaticResource SousTitre}" FontSize="14" />

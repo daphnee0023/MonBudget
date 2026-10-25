@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonBudget.Views.ProfilPage">
+    <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*" Padding="20,14" ColumnSpacing="16">
+            <Button Text="←" FontSize="24" BackgroundColor="Transparent" TextColor="{StaticResource Marine}"
+                    Padding="0" WidthRequest="40" Clicked="OnRetourClicked" />
+            <Label Grid.Column="1" Text="Profil" Style="{StaticResource SousTitre}" FontSize="22"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
+
+                <!-- Identité -->
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                        <Border WidthRequest="88" HeightRequest="88" BackgroundColor="{StaticResource Marine}"
+                                Stroke="Transparent" StrokeShape="RoundRectangle 44" HorizontalOptions="Center">
+                            <Label x:Name="LabelInitiales" Text="?" TextColor="White" FontSize="32" FontAttributes="Bold"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label x:Name="LabelNom" Text="—" Style="{StaticResource Titre}" FontSize="24"
+                               HorizontalTextAlignment="Center" Margin="0,6,0,0" />
+                        <Label x:Name="LabelContact" Text="—" Style="{StaticResource Legende}" FontSize="15"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Compte -->
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="16">
+                        <Label Text="Mon compte" Style="{StaticResource SousTitre}" FontSize="18" />
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Image Source="ic_at_gris.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="Identifiant" Style="{StaticResource Legende}" FontSize="15" VerticalOptions="Center" />
+                            <Label x:Name="LabelIdentifiant" Grid.Column="2" Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource Marine}" VerticalOptions="Center" />
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Image Source="ic_wallet_indigo.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="Devise" Style="{StaticResource Legende}" FontSize="15" VerticalOptions="Center" />
+                            <Label Grid.Column="2" Text="FCFA (XOF/XAF)" FontAttributes="Bold"
+                                   TextColor="{StaticResource Marine}" VerticalOptions="Center" />
+                        </Grid>
+
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <Image Source="ic_calendar_indigo.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="Membre depuis" Style="{StaticResource Legende}" FontSize="15" VerticalOptions="Center" />
+                            <Label x:Name="LabelMembre" Grid.Column="2" Text="—" FontAttributes="Bold"
+                                   TextColor="{StaticResource Marine}" VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Résumé du mois -->
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Ce mois-ci" Style="{StaticResource SousTitre}" FontSize="18" />
+
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Budget" Style="{StaticResource Legende}" FontSize="15" />
+                            <Label x:Name="LabelBudget" Grid.Column="1" Text="—" FontAttributes="Bold" TextColor="{StaticResource Marine}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Dépensé" Style="{StaticResource Legende}" FontSize="15" />
+                            <Label x:Name="LabelDepense" Grid.Column="1" Text="—" FontAttributes="Bold" TextColor="{StaticResource Marine}" />
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Restant" Style="{StaticResource Legende}" FontSize="15" />
+                            <Label x:Name="LabelRestant" Grid.Column="1" Text="—" FontAttributes="Bold" TextColor="{StaticResource Succes}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Déconnexion -->
+                <Button Text="Se déconnecter" ImageSource="ic_logout_rouge.png" ContentLayout="Left,10"
+                        Style="{StaticResource BoutonSecondaire}" TextColor="#D32F2F"
+                        Clicked="OnDeconnexionClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

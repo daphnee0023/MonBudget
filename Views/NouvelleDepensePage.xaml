@@ -10,7 +10,7 @@
                    VerticalOptions="Center" />
             <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource Marine}"
                     StrokeShape="RoundRectangle 22" Stroke="Transparent">
-                <Image Source="ic_user_blanc" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                <Image Source="ic_user_blanc.png" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
             </Border>
         </Grid>
 
@@ -19,7 +19,7 @@
 
                 <Border Style="{StaticResource Carte}" BackgroundColor="{StaticResource FondDoux}">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <Image Source="ic_wallet_indigo" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Image Source="ic_wallet_indigo.png" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
                         <VerticalStackLayout Grid.Column="1">
                             <Label Text="Budget mensuel restant" Style="{StaticResource Legende}" />
                             <Label x:Name="LabelBudgetRestant" Text="65 000 FCFA" Style="{StaticResource SousTitre}" />
@@ -71,7 +71,7 @@
                                         WidthRequest="78" Padding="6,10" Margin="0,0,8,8">
                                     <VerticalStackLayout Spacing="4">
                                         <Border WidthRequest="44" HeightRequest="44" BackgroundColor="{StaticResource FondDoux}" Stroke="Transparent" StrokeShape="RoundRectangle 22" HorizontalOptions="Center">
-                                            <Image Source="{Binding Icone}" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            <Image Source="{Binding IconeImage}" WidthRequest="24" HeightRequest="24" HorizontalOptions="Center" VerticalOptions="Center" />
                                         </Border>
                                         <Label Text="{Binding Nom}" FontSize="11" FontAttributes="Bold"
                                                HorizontalOptions="Center" LineBreakMode="TailTruncation" />
@@ -90,7 +90,7 @@
                     <Label Text="Date de la transaction" Style="{StaticResource LabelChamp}" />
                     <Border Style="{StaticResource Carte}" Padding="18,4">
                         <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                            <Image Source="ic_calendar_indigo" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                            <Image Source="ic_calendar_indigo.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
                             <DatePicker x:Name="DateDepense" Grid.Column="1" Format="dd/MM/yyyy"
                                         TextColor="{StaticResource Marine}" FontAttributes="Bold" />
                             <Border Grid.Column="2" Style="{StaticResource Puce}" Padding="10,4" VerticalOptions="Center">
@@ -110,7 +110,7 @@
 
                 <Border Style="{StaticResource Carte}" BackgroundColor="{StaticResource FondDoux}">
                     <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
-                        <Image Source="ic_trend_up_indigo" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
+                        <Image Source="ic_trend_up_indigo.png" WidthRequest="26" HeightRequest="26" VerticalOptions="Center" />
                         <VerticalStackLayout Grid.Column="1">
                             <Label Text="Nouveau solde estimé" Style="{StaticResource SousTitre}" />
                             <Label Text="Post-enregistrement" Style="{StaticResource Legende}" />

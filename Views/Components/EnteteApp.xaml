@@ -10,10 +10,13 @@
             <Label Text="{Binding Titre, Source={x:Reference racine}}"
                    Style="{StaticResource SousTitre}" FontSize="22" />
         </VerticalStackLayout>
-        <Image Source="ic_bell_marine" WidthRequest="24" HeightRequest="24" Grid.Column="1" VerticalOptions="Center" />
+        <Image Source="ic_bell_marine.png" WidthRequest="24" HeightRequest="24" Grid.Column="1" VerticalOptions="Center" />
         <Border Grid.Column="2" WidthRequest="44" HeightRequest="44"
                 BackgroundColor="{StaticResource Marine}" StrokeShape="RoundRectangle 22" Stroke="Transparent">
-            <Image Source="ic_user_blanc" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Image Source="ic_user_blanc.png" WidthRequest="22" HeightRequest="22" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Border.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnProfilTapped" />
+            </Border.GestureRecognizers>
         </Border>
     </Grid>
 </ContentView>

@@ -16,16 +16,16 @@
     <!-- Application principale : barre d'onglets -->
     <TabBar Route="Main">
         <ShellContent Title="Accueil" Route="Accueil" ContentTemplate="{DataTemplate views:AccueilPage}">
-            <ShellContent.Icon><FileImageSource File="tab_home" /></ShellContent.Icon>
+            <ShellContent.Icon><FileImageSource File="tab_home.png" /></ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Dépenses" Route="Depenses" ContentTemplate="{DataTemplate views:CategoriesPage}">
-            <ShellContent.Icon><FileImageSource File="tab_receipt" /></ShellContent.Icon>
+            <ShellContent.Icon><FileImageSource File="tab_receipt.png" /></ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Statistiques" Route="Statistiques" ContentTemplate="{DataTemplate views:StatistiquesPage}">
-            <ShellContent.Icon><FileImageSource File="tab_chart" /></ShellContent.Icon>
+            <ShellContent.Icon><FileImageSource File="tab_chart.png" /></ShellContent.Icon>
         </ShellContent>
         <ShellContent Title="Budget" Route="Budget" ContentTemplate="{DataTemplate views:BudgetPage}">
-            <ShellContent.Icon><FileImageSource File="tab_wallet" /></ShellContent.Icon>
+            <ShellContent.Icon><FileImageSource File="tab_wallet.png" /></ShellContent.Icon>
         </ShellContent>
     </TabBar>
 </Shell>

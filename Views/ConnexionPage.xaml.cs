@@ -4,12 +4,18 @@ namespace MonBudget.Views;
 
 public partial class ConnexionPage : ContentPage
 {
-    public ConnexionPage() => InitializeComponent();
+    private readonly IAuthService _auth;
+
+    public ConnexionPage(IAuthService auth)
+    {
+        InitializeComponent();
+        _auth = auth;
+    }
 
     private void OnAfficherMotDePasseTapped(object? sender, TappedEventArgs e)
     {
         EntryMotDePasse.IsPassword = !EntryMotDePasse.IsPassword;
-        IconeOeil.Source = EntryMotDePasse.IsPassword ? "ic_eye_gris" : "ic_eye_off_gris";
+        IconeOeil.Source = EntryMotDePasse.IsPassword ? "ic_eye_gris.png" : "ic_eye_off_gris.png";
     }
 
     private async void OnConnexionClicked(object? sender, EventArgs e)
@@ -23,13 +29,7 @@ public partial class ConnexionPage : ContentPage
             return;
         }
 
-        if (BudgetService.Instance.AucunCompte)
-        {
-            await DisplayAlertAsync("Aucun compte", "Créez d'abord un compte pour vous connecter.", "OK");
-            return;
-        }
-
-        if (!BudgetService.Instance.Connecter(identifiant, motDePasse))
+        if (!await _auth.ConnecterAsync(identifiant, motDePasse, CheckSouvenir.IsChecked))
         {
             await DisplayAlertAsync("Connexion impossible", "Identifiant ou mot de passe incorrect.", "OK");
             return;

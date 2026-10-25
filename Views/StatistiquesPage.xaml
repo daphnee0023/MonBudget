@@ -10,12 +10,31 @@
             <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
 
                 <Grid ColumnDefinitions="*,Auto">
-                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center"><Image Source="ic_trend_up_indigo" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" /><Label Text="Analyse financière" TextColor="{StaticResource Gris}" FontSize="16" VerticalOptions="Center" /></HorizontalStackLayout>
-                    <Border Grid.Column="1" Style="{StaticResource Puce}" BackgroundColor="White" Padding="16,10">
-                        <HorizontalStackLayout Spacing="8"><Image Source="ic_calendar_marine" WidthRequest="18" HeightRequest="18" VerticalOptions="Center" /><Label Text="Octobre 2026" FontAttributes="Bold" TextColor="{StaticResource Marine}" VerticalOptions="Center" /><Image Source="ic_chevron_down_marine" WidthRequest="16" HeightRequest="16" VerticalOptions="Center" /></HorizontalStackLayout>
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Image Source="ic_trend_up_indigo.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center" />
+                        <Label Text="Analyse financière" TextColor="{StaticResource Gris}" FontSize="16" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <!-- Sélecteur de mois -->
+                    <Border Grid.Column="1" Style="{StaticResource Puce}" BackgroundColor="White" Padding="10,8">
+                        <HorizontalStackLayout Spacing="12">
+                            <Image Source="ic_chevron_left_marine.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMoisPrecedentTapped" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Label x:Name="LabelMois" Text="Octobre 2026" FontAttributes="Bold"
+                                   TextColor="{StaticResource Marine}" VerticalOptions="Center" />
+                            <Image Source="ic_chevron_right_marine.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnMoisSuivantTapped" />
+                                </Image.GestureRecognizers>
+                            </Image>
+                        </HorizontalStackLayout>
                     </Border>
                 </Grid>
 
+                <!-- Répartition -->
                 <Border Style="{StaticResource Carte}">
                     <VerticalStackLayout Spacing="16">
                         <Grid ColumnDefinitions="*,Auto">
@@ -25,25 +44,26 @@
                             </Border>
                         </Grid>
 
-                        
+                        <!-- Anneau : arcs mis à jour par le code (jusqu'à 4 catégories) -->
                         <Grid WidthRequest="230" HeightRequest="230" HorizontalOptions="Center">
-                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#000066" StrokeThickness="36"
-                                     StrokeDashArray="5.72,8.59" StrokeDashOffset="0" Rotation="-90" />
-                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#4350B5" StrokeThickness="36"
-                                     StrokeDashArray="3.58,10.73" StrokeDashOffset="-5.72" Rotation="-90" />
-                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#1AA0D8" StrokeThickness="36"
-                                     StrokeDashArray="2.86,11.45" StrokeDashOffset="-9.30" Rotation="-90" />
-                            <Ellipse WidthRequest="200" HeightRequest="200" Stroke="#43A047" StrokeThickness="36"
-                                     StrokeDashArray="2.15,12.16" StrokeDashOffset="-12.16" Rotation="-90" />
+                            <Ellipse x:Name="Arc0" WidthRequest="200" HeightRequest="200" Stroke="#E9EAF3" StrokeThickness="36" />
+                            <Ellipse x:Name="Arc1" WidthRequest="200" HeightRequest="200" Stroke="#000066" StrokeThickness="36"
+                                     StrokeDashArray="5.72,8.59" StrokeDashOffset="0" Rotation="-90" IsVisible="False" />
+                            <Ellipse x:Name="Arc2" WidthRequest="200" HeightRequest="200" Stroke="#4350B5" StrokeThickness="36"
+                                     StrokeDashArray="3.58,10.73" StrokeDashOffset="-5.72" Rotation="-90" IsVisible="False" />
+                            <Ellipse x:Name="Arc3" WidthRequest="200" HeightRequest="200" Stroke="#1AA0D8" StrokeThickness="36"
+                                     StrokeDashArray="2.86,11.45" StrokeDashOffset="-9.30" Rotation="-90" IsVisible="False" />
+                            <Ellipse x:Name="Arc4" WidthRequest="200" HeightRequest="200" Stroke="#43A047" StrokeThickness="36"
+                                     StrokeDashArray="2.15,12.16" StrokeDashOffset="-12.16" Rotation="-90" IsVisible="False" />
                             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                                <Image Source="ic_chart_indigo" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" />
-                                <Label Text="85 000" Style="{StaticResource Titre}" FontSize="32" HorizontalOptions="Center" />
+                                <Image Source="ic_chart_indigo.png" WidthRequest="30" HeightRequest="30" HorizontalOptions="Center" />
+                                <Label x:Name="LabelTotal" Text="0" Style="{StaticResource Titre}" FontSize="32" HorizontalOptions="Center" />
                                 <Label Text="FCFA TOTAL" Style="{StaticResource Legende}" HorizontalOptions="Center" />
                             </VerticalStackLayout>
                         </Grid>
 
-                        <Label Text="Touchez un segment pour inspecter les détails" Style="{StaticResource Legende}"
-                               HorizontalOptions="Center" />
+                        <Label x:Name="LabelAucuneDepense" Text="Aucune dépense ce mois-ci." Style="{StaticResource Legende}"
+                               FontSize="14" HorizontalOptions="Center" IsVisible="False" />
 
                         <VerticalStackLayout x:Name="LegendeCategories" Spacing="10">
                             <BindableLayout.ItemTemplate>
@@ -53,7 +73,8 @@
                                         <Grid ColumnDefinitions="Auto,Auto,*,Auto" ColumnSpacing="12">
                                             <BoxView WidthRequest="14" HeightRequest="14" CornerRadius="7"
                                                      Color="{Binding Couleur}" VerticalOptions="Center" />
-                                            <Image Source="{Binding Icone}" WidthRequest="26" HeightRequest="26" Grid.Column="1" VerticalOptions="Center" />
+                                            <Image Grid.Column="1" Source="{Binding IconeImage}" WidthRequest="26" HeightRequest="26"
+                                                   VerticalOptions="Center" />
                                             <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
                                                 <Label Text="{Binding Nom}" Style="{StaticResource SousTitre}" TextColor="Black" />
                                                 <Label Text="{Binding MontantTexte}" Style="{StaticResource Legende}" />
@@ -68,6 +89,7 @@
                     </VerticalStackLayout>
                 </Border>
 
+                <!-- Poste majeur / rythme -->
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Style="{StaticResource Carte}" Padding="16">
                         <VerticalStackLayout Spacing="4">
@@ -75,23 +97,54 @@
                                 <Label Text="Poste majeur" Style="{StaticResource Legende}" FontSize="13" />
                                 <Label Grid.Column="1" Text="↑" TextColor="{StaticResource Marine}" FontAttributes="Bold" />
                             </Grid>
-                            <Label Text="Alimentation" Style="{StaticResource SousTitre}" FontSize="19" />
-                            <Label Text="40% du budget" Style="{StaticResource Legende}" FontAttributes="Bold" />
+                            <Label x:Name="LabelPosteMajeur" Text="—" Style="{StaticResource SousTitre}" FontSize="19" />
+                            <Label x:Name="LabelPartMajeur" Text="" Style="{StaticResource Legende}" FontAttributes="Bold" />
                         </VerticalStackLayout>
                     </Border>
                     <Border Grid.Column="1" Style="{StaticResource Carte}" Padding="16">
                         <VerticalStackLayout Spacing="4">
                             <Grid ColumnDefinitions="*,Auto">
                                 <Label Text="Rythme mensuel" Style="{StaticResource Legende}" FontSize="13" />
-                                <Image Source="ic_check_circle_vert" WidthRequest="20" HeightRequest="20" Grid.Column="1" />
+                                <Image Grid.Column="1" Source="ic_check_circle_vert.png" WidthRequest="20" HeightRequest="20" />
                             </Grid>
-                            <Label Text="Bien maîtrisé" TextColor="{StaticResource Succes}" FontAttributes="Bold" FontSize="19" />
-                            <Label Text="Conforme aux prévisions" Style="{StaticResource Legende}" FontAttributes="Bold" />
+                            <Label x:Name="LabelRythmeTitre" Text="Bien maîtrisé" TextColor="{StaticResource Succes}" FontAttributes="Bold" FontSize="19" />
+                            <Label x:Name="LabelRythmeDetail" Text="Conforme aux prévisions" Style="{StaticResource Legende}" FontAttributes="Bold" />
                         </VerticalStackLayout>
                     </Border>
                 </Grid>
 
-                <Button Text="Exporter les données" ImageSource="ic_upload_blanc" ContentLayout="Left,10" Style="{StaticResource BoutonPrincipal}"
+                <!-- Chiffres clés -->
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="Chiffres clés" Style="{StaticResource SousTitre}" FontSize="18" />
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Dépenses" Style="{StaticResource Legende}" />
+                                <Label x:Name="LabelNbDepenses" Text="0" Style="{StaticResource SousTitre}" FontSize="20" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                <Label Text="Moyenne / jour" Style="{StaticResource Legende}" />
+                                <Label x:Name="LabelMoyenne" Text="0" Style="{StaticResource SousTitre}" FontSize="20" />
+                            </VerticalStackLayout>
+                            <VerticalStackLayout Grid.Column="2" Spacing="2">
+                                <Label Text="Plus grosse" Style="{StaticResource Legende}" />
+                                <Label x:Name="LabelPlusGrosse" Text="—" Style="{StaticResource SousTitre}" FontSize="20" />
+                                <Label x:Name="LabelPlusGrosseCategorie" Text="" Style="{StaticResource Legende}" FontSize="11" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Évolution sur 6 mois -->
+                <Border Style="{StaticResource Carte}">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Évolution sur 6 mois" Style="{StaticResource SousTitre}" FontSize="18" />
+                        <Grid x:Name="GrapheEvolution" HeightRequest="170" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Button x:Name="BoutonExport" Text="Exporter le rapport en PDF" ImageSource="ic_upload_blanc.png"
+                        ContentLayout="Left,10" Style="{StaticResource BoutonPrincipal}"
                         BackgroundColor="{StaticResource Indigo}" Clicked="OnExporterClicked" />
             </VerticalStackLayout>
         </ScrollView>

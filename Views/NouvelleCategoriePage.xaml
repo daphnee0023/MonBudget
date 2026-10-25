@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MonBudget.Views.NouvelleCategoriePage">
+    <Grid RowDefinitions="Auto,*">
+        <Grid ColumnDefinitions="Auto,*" Padding="20,14" ColumnSpacing="16">
+            <Button Text="←" FontSize="24" BackgroundColor="Transparent" TextColor="{StaticResource Marine}"
+                    Padding="0" WidthRequest="40" Clicked="OnRetourClicked" />
+            <Label Grid.Column="1" Text="Nouvelle catégorie" Style="{StaticResource SousTitre}" FontSize="22"
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="20,0,20,28" Spacing="18">
+
+                <!-- Aperçu en direct -->
+                <Border Style="{StaticResource Carte}">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                        <Border x:Name="ApercuFond" WidthRequest="56" HeightRequest="56" BackgroundColor="{StaticResource FondDoux}"
+                                Stroke="Transparent" StrokeShape="RoundRectangle 28">
+                            <Image x:Name="ApercuIcone" Source="ic_more_marine.png" WidthRequest="28" HeightRequest="28"
+                                   HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                            <Label x:Name="ApercuNom" Text="Nom de la catégorie" Style="{StaticResource SousTitre}" FontSize="18" />
+                            <Label x:Name="ApercuDescription" Text="Description" Style="{StaticResource Legende}" FontSize="13" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <VerticalStackLayout>
+                    <Label Text="Nom *" Style="{StaticResource LabelChamp}" />
+                    <Border Style="{StaticResource ChampBorder}">
+                        <Entry x:Name="EntryNom" Placeholder="Ex : Abonnements" MaxLength="30" TextChanged="OnTexteChanged" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Description (optionnel)" Style="{StaticResource LabelChamp}" />
+                    <Border Style="{StaticResource ChampBorder}">
+                        <Entry x:Name="EntryDescription" Placeholder="Ex : Netflix, musique, applications" MaxLength="60"
+                               TextChanged="OnTexteChanged" />
+                    </Border>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Icône *" Style="{StaticResource LabelChamp}" />
+                    <FlexLayout x:Name="GrilleIcones" Wrap="Wrap" JustifyContent="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Border WidthRequest="56" HeightRequest="56" Margin="0,0,10,10" BackgroundColor="White"
+                                        Stroke="Transparent" StrokeThickness="3" StrokeShape="RoundRectangle 16">
+                                    <Image Source="{Binding .}" WidthRequest="26" HeightRequest="26"
+                                           HorizontalOptions="Center" VerticalOptions="Center" />
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIconeTapped" />
+                                    </Border.GestureRecognizers>
+                                </Border>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </VerticalStackLayout>
+
+                <VerticalStackLayout>
+                    <Label Text="Couleur *" Style="{StaticResource LabelChamp}" />
+                    <FlexLayout x:Name="GrilleCouleurs" Wrap="Wrap" JustifyContent="Start" />
+                </VerticalStackLayout>
+
+                <Button Text="✓  Créer la catégorie" Style="{StaticResource BoutonPrincipal}"
+                        BackgroundColor="{StaticResource Marine}" Clicked="OnCreerClicked" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

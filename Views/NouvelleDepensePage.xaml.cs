@@ -1,4 +1,3 @@
-using MonBudget.Data;
 using MonBudget.Models;
 using MonBudget.Services;
 
@@ -7,33 +6,51 @@ namespace MonBudget.Views;
 public partial class NouvelleDepensePage : ContentPage
 {
     private static readonly Color Marine = Color.FromArgb("#000066");
-    private readonly BudgetService _service = BudgetService.Instance;
-    private Categorie? _categorieChoisie;
 
-    public NouvelleDepensePage()
+    private readonly ICategorieService _categories;
+    private readonly IDepenseService _depenses;
+    private readonly IBudgetService _budget;
+    private readonly INotificationService _notifications;
+
+    private Categorie? _categorieChoisie;
+    private ResumeBudget _resume = new();
+    private bool _categoriesChargees;
+
+    public NouvelleDepensePage(ICategorieService categories, IDepenseService depenses,
+                               IBudgetService budget, INotificationService notifications)
     {
         InitializeComponent();
+        _categories = categories;
+        _depenses = depenses;
+        _budget = budget;
+        _notifications = notifications;
+
         DateDepense.Date = DateTime.Today;
         DateDepense.MaximumDate = DateTime.Today;   // pas de dépense dans le futur
-        BindableLayout.SetItemsSource(GrilleCategories, DonneesExemple.Categories);
     }
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
-        LabelBudgetRestant.Text = BudgetService.Fcfa(_service.Restant);
+
+        _resume = await _budget.ResumeAsync();
+        LabelBudgetRestant.Text = Format.Fcfa(_resume.Restant);
         MajSoldeEstime();
 
-        // Présélectionne la première catégorie (Alimentation)
+        if (_categoriesChargees) return;
+        BindableLayout.SetItemsSource(GrilleCategories, await _categories.ListerAsync());
+        _categoriesChargees = true;
+
+        // Présélectionne la première catégorie
         var premiere = GrilleCategories.Children.OfType<Border>().FirstOrDefault();
-        if (premiere is not null && _categorieChoisie is null) Selectionner(premiere);
+        if (premiere is not null) Selectionner(premiere);
     }
 
     private static decimal LireMontant(string? texte)
         => decimal.TryParse(texte, out var m) ? m : 0m;
 
     private void MajSoldeEstime()
-        => LabelSoldeEstime.Text = BudgetService.Fcfa(_service.Restant - LireMontant(EntryMontant.Text));
+        => LabelSoldeEstime.Text = Format.Fcfa(_resume.Restant - LireMontant(EntryMontant.Text));
 
     private void OnMontantChanged(object? sender, TextChangedEventArgs e) => MajSoldeEstime();
 
@@ -72,6 +89,13 @@ public partial class NouvelleDepensePage : ContentPage
                 label.TextColor = couleur;
     }
 
+    // Notification système si possible (Android), sinon alerte à l'écran
+    private async Task AlerterAsync(string titre, string message)
+    {
+        var envoyee = await _notifications.NotifierAsync(titre, message);
+        if (!envoyee) await DisplayAlertAsync(titre, message, "OK");
+    }
+
     private async void OnEnregistrerClicked(object? sender, EventArgs e)
     {
         var montant = LireMontant(EntryMontant.Text);
@@ -88,22 +112,20 @@ public partial class NouvelleDepensePage : ContentPage
         }
 
         var date = DateDepense.Date ?? DateTime.Today;
-        var dateTexte = date.Date == DateTime.Today ? "Aujourd'hui"
-                      : date.Date == DateTime.Today.AddDays(-1) ? "Hier"
-                      : date.ToString("dd/MM/yyyy");
+        await _depenses.AjouterAsync(_categorieChoisie.Id, montant, date, EditorNote.Text?.Trim() ?? "");
 
-        _service.AjouterDepense(new Depense
+        // Une alerte n'est envoyée qu'au moment où cette dépense franchit un seuil
+        var apres = await _budget.ResumeAsync();
+        if (apres.AlerteDepassement && !_resume.AlerteDepassement)
         {
-            Categorie = _categorieChoisie.Nom,
-            Icone = _categorieChoisie.Icone,
-            DateTexte = dateTexte,
-            Montant = montant,
-            Note = EditorNote.Text?.Trim() ?? ""
-        });
-
-        if (_service.SeuilAtteint)
-            await DisplayAlertAsync("Alerte budget",
-                $"Vous avez atteint 80% de votre budget mensuel ({BudgetService.Fcfa(_service.Seuil)}).", "OK");
+            await AlerterAsync("Budget dépassé",
+                $"Vous avez dépensé {Format.Fcfa(apres.TotalDepense)} pour un budget de {Format.Fcfa(apres.Budget)}.");
+        }
+        else if (apres.SeuilAtteint && !_resume.SeuilAtteint)
+        {
+            await AlerterAsync("80% du budget atteint",
+                $"Il vous reste {Format.Fcfa(apres.Restant)} sur {Format.Fcfa(apres.Budget)} ce mois-ci.");
+        }
 
         await Shell.Current.GoToAsync("..");
     }
